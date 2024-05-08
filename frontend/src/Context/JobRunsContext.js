@@ -11,7 +11,7 @@ const JobRunsProvider = ({ children }) => {
   const fetchJobRunsData = async () => {
     try {
       // Make API call to fetch job runs data
-      const response = await fetch(process.env.REACT_APP_SERVER_URL);
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs`);
       const data = await response.json();
 
       // Set the job runs data in state
@@ -24,7 +24,7 @@ const JobRunsProvider = ({ children }) => {
   // Fetch job runs data when component mounts
   useEffect(() => {
     fetchJobRunsData();
-  }, [jobRuns]);
+  }, []);
 
   return (
     // Provide the job runs data and function to update it to the children components
