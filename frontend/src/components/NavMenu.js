@@ -15,12 +15,12 @@ const NavMenu = () => {
   };
 
   return (
-    <Navbar className="bg-body-tertiary" collapseOnSelect expand="sm">
+    <Navbar className="bg-body-tertiary" collapseOnSelect expand="x">
       <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavDropdown title="Views" id="basic-nav-dropdown" onSelect={handleSelect}>
+            <NavDropdown title="Choose your View" id="basic-nav-dropdown" onSelect={handleSelect}>
               <NavDropdown.Item eventKey="Jobs" active={selectedItem === "Jobs"}>
                 Jobs
               </NavDropdown.Item>

@@ -5,12 +5,18 @@
 .logo {
   width: 150px;
   height: 110px;
-  margin-top: 20px;
+  margin-top: -60px;
   margin-right: auto; 
   margin-left: auto; 
   display: block; 
 }
 
 .header {
-  
+  display: flex;
+  justify-content:flex-start;
+  padding: 20px;
+}
+
+.navtext {
+  font-size: 13px;
 }
