@@ -1,8 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-require("dotenv").config();
 const cors = require("cors");
 const path = require("path");
+
+require("dotenv").config();
 
 const db = require("./DB/db"); 
 
@@ -21,6 +22,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "public", "build")));
 }
 
+// ----------controllers--------------
+const loginController = require("./controllers/login");
+
 // ----------- routes -------------
 
 // default route
@@ -28,7 +32,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to the JL Trucking App");
 });
 
-
+app.use("/login", loginController)
 
 // Start Server
 
@@ -41,5 +45,5 @@ app.listen(port, async () => {
   } catch (err) {
     console.error("Error connecting to the database", err);
   }
-  console.log(`App up pand running on ${port}`)
+  console.log(`App up and running on ${port}`)
 });
