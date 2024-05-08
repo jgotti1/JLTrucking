@@ -23,7 +23,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // ----------controllers--------------
-const loginController = require("./controllers/login");
+
+const jobsController = require("./controllers/Jobs");
+const loginController = require("./controllers/UserLogin");
 
 // ----------- routes -------------
 
@@ -33,6 +35,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/login", loginController)
+app.use("/jobs", jobsController)
 
 // Start Server
 

@@ -14,7 +14,6 @@ router.post("/", async (req, res) => {
     // Query the database to find the user by username
     const queryResult = await db.query("SELECT * FROM users WHERE username = $1", [username]);
     const user = queryResult.rows[0];
-  
 
     if (!user) {
       // If user not found
@@ -31,7 +30,6 @@ router.post("/", async (req, res) => {
 
     // If both username and password are correct
     res.status(200).json({ message: "Login successful" });
-
   } catch (error) {
     console.error("Error while logging in:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -39,15 +37,3 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-

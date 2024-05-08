@@ -17,7 +17,7 @@ const NavMenu = () => {
   return (
     <Navbar className="bg-body-tertiary" collapseOnSelect expand="x">
       <Container>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ backgroundColor: "white" }} />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavDropdown title="Choose your View" id="basic-nav-dropdown" onSelect={handleSelect}>
