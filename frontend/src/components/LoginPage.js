@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-const LoginPage = ({ onLogin }) => {
+
+const LoginPage = ({onLogin}) => {
   // Accept onLogin prop
   // State to store username, password, and error message
   const [username, setUsername] = useState("");
@@ -24,13 +24,11 @@ console.log(`${process.env.REACT_APP_SERVER_URL}login`);
       });
 
       const data = await response.json();
-      console.log(`data ${data.isAdminResult}`)
-      const admin = data.isAdminResult
+      console.log(data)
 
       if (response.ok) {
         // Login successful, call onLogin to update authentication status
-        onLogin(admin);
-        console.log("Login successful");
+        onLogin()
       } else {
         // Login failed, show error message from backend
         setError(data.message);

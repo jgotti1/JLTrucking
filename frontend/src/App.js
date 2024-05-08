@@ -5,7 +5,7 @@ import LoginPage from "./components/LoginPage"
 function App() {
   return (
     <div className="App">
-  <LoginPage/>
+  <h1>WELCOME TO THE JLT APP</h1>
     </div>
   );
 }
