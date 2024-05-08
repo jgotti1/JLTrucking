@@ -4,6 +4,7 @@ import App from "./App";
 import LoginPage from "./components/LoginPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavigationProvider } from "./Context/NavigationContext";
+import { JobRunsProvider } from "./Context/JobRunsContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -17,11 +18,10 @@ function RootComponent() {
 
   return (
     <React.StrictMode>
-      <NavigationProvider>
-        {isLoggedIn ? <App /> : <LoginPage onLogin={handleLogin} />}
-      </NavigationProvider>
+      <JobRunsProvider>
+        <NavigationProvider>{isLoggedIn ? <App /> : <LoginPage onLogin={handleLogin} />}</NavigationProvider>
+      </JobRunsProvider>
     </React.StrictMode>
-  );
-}
+  );}
 
 root.render(<RootComponent />);
