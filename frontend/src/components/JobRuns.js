@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import { JobRunsContext } from "../Context/JobRunsContext";
 import JobRunModal from "./Modals/JobModal";
+import { v4 as uuidv4 } from "uuid";
 
 const JobRunsViewer = () => {
   const { jobRuns } = useContext(JobRunsContext);
@@ -66,8 +67,8 @@ const JobRunsViewer = () => {
             </tr>
           </thead>
           <tbody>
-            {jobRuns.map((jobRun, index) => (
-              <tr key={jobRun.id || index}>
+            {jobRuns.map((jobRun) => (
+              <tr key={jobRun.id || uuidv4()}>
                 <td>
                   {new Date(jobRun.job_date).toISOString().split("T")[0].split("-").slice(1).concat(new Date(jobRun.job_date).toISOString().split("T")[0].split("-")[0]).join("/")}
                 </td>
