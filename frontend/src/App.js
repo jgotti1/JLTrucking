@@ -15,7 +15,7 @@ function App() {
         <NavMenu />
       </header>
       <img src="/JLlogo.jpg" alt="JL Trucking Logo" className="logo" />
-      <h4>{selectedItem}</h4>
+      <h3 className="header-font">{selectedItem}</h3>
       {selectedItem === "Jobs" && <JobRuns />}
     </div>
   );

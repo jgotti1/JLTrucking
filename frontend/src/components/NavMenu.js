@@ -21,7 +21,7 @@ const NavMenu = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavDropdown title="Choose your View" id="basic-nav-dropdown" onSelect={handleSelect}>
-              <NavDropdown.Item eventKey="Jobs" active={selectedItem === "Jobs"}>
+              <NavDropdown.Item eventKey="Jobs" active={selectedItem === "Jobs"} >
                 Jobs
               </NavDropdown.Item>
               <NavDropdown.Item eventKey="Fuel" active={selectedItem === "Fuel"}>

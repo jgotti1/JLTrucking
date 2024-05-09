@@ -7,6 +7,11 @@ const JobRunsProvider = ({ children }) => {
   // State to store the job runs data
   const [jobRuns, setJobRuns] = useState([]);
 
+  // Function to update job runs data
+  const updateJobRuns = (updatedJobRuns) => {
+    setJobRuns(updatedJobRuns);
+  };
+
   // Function to fetch job runs data
   const fetchJobRunsData = async () => {
     try {
@@ -28,7 +33,7 @@ const JobRunsProvider = ({ children }) => {
 
   return (
     // Provide the job runs data and function to update it to the children components
-    <JobRunsContext.Provider value={{ jobRuns, setJobRuns }}>{children}</JobRunsContext.Provider>
+    <JobRunsContext.Provider value={{ jobRuns, setJobRuns, updateJobRuns }}>{children}</JobRunsContext.Provider>
   );
 };
 

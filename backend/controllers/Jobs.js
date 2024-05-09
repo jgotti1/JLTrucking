@@ -46,9 +46,11 @@ router.post('/', async (req, res) => {
       notes
     } = req.body;
 
-
-    const currentDate = new Date();
-    const complete_time = status === "Complete" ? currentDate.toLocaleTimeString([], { hour12: false }) : null;
+    if (status === "Complete") {
+      complete_time = new Date();
+    } else {
+      complete_time = null;
+    }
 
       
     if (!job_date || !job_type || !truck_id || !driver_id || !status || !starting_mileage || !ending_mileage || !pickup_location || !delivery_location ) {
@@ -84,11 +86,16 @@ router.put('/:id', async (req, res) => {
             pickup_location,
             delivery_location,
             job_pay,
-            notes
+            notes,
+            completed_time
       } = req.body;
       
-      const currentDate = new Date();
-      const complete_time = status === "Complete" ? currentDate.toLocaleTimeString([], { hour12: false }) : null;
+
+      if (status === "Complete") {
+        complete_time = new Date();
+      } else {
+        complete_time = req.body.completedDate;
+      }
 
       if (!job_date || !job_type || !truck_id || !driver_id || !status || !starting_mileage || !ending_mileage || !pickup_location || !delivery_location) {
         return res.status(400).json({ message: "Missing required fields" });

@@ -20,3 +20,29 @@
 .navtext {
   font-size: 13px;
 }
+
+.data-text {
+  font-size: 12px;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto; /* Horizontally scrollable */
+  margin-top: 20px;
+}
+
+.table-wrapper {
+  width: 100%; /* Ensure full width of the table */
+}
+
+.header-font {
+    font-size: 36px;
+    font-weight: bolder;
+    letter-spacing: 5px; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.data-entry-modal .modal-content {
+  background-color: #cfd4d6; /* Light grey background for this specific modal */
+}
