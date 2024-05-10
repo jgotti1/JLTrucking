@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModal({ showModal, handleClose, handleSubmit, handleDelete, initialData = {} }) {
+function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handleDelete, initialData = {} }) {
+  console.log(highlightFields);
+
   const [formData, setFormData] = useState({
     job_date: initialData.job_date || "",
     po_number: initialData.po_number || "",
@@ -56,27 +58,39 @@ function JobModal({ showModal, handleClose, handleSubmit, handleDelete, initialD
         <Form>
           <Row>
             <Col>
-              <Form.Group className="mb-2">
+              <Form.Group className="mb2">
                 <Form.Label>Job Date *</Form.Label>
-                <Form.Control type="date" name="job_date" value={formData.job_date} onChange={handleChange} />
+                <Form.Control className={`${highlightFields["Job Date"] ? "highlight" : ""}`} type="date" name="job_date" value={formData.job_date} onChange={handleChange} />
               </Form.Group>
 
               <Form.Group className="mb-2">
                 <Form.Label>PO Number</Form.Label>
-                <Form.Control type="text" name="po_number" value={formData.po_number} onChange={handleChange} />
+                <Form.Control type="text" name="po_number" value={formData.po_number} onChange={handleChange} className={`${highlightFields["job_date"] ? "highlight" : ""}`} />
               </Form.Group>
 
               <Form.Group className="mb-2">
                 <Form.Label>Job Type *</Form.Label>
-                <Form.Control type="text" name="job_type" value={formData.job_type} onChange={handleChange} />
+                <Form.Control className={`${highlightFields["Job Type"] ? "highlight" : ""}`} type="text" name="job_type" value={formData.job_type} onChange={handleChange} />
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Starting Mileage *</Form.Label>
-                <Form.Control type="text" name="starting_mileage" value={formData.starting_mileage} onChange={handleChange} />
+                <Form.Control
+                  className={`${highlightFields["Starting Mileage"] ? "highlight" : ""}`}
+                  type="text"
+                  name="starting_mileage"
+                  value={formData.starting_mileage}
+                  onChange={handleChange}
+                />
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Pickup Location *</Form.Label>
-                <Form.Control type="text" name="pickup_location" value={formData.pickup_location} onChange={handleChange} />
+                <Form.Control
+                  className={`${highlightFields["Pickup Location"] ? "highlight" : ""}`}
+                  type="text"
+                  name="pickup_location"
+                  value={formData.pickup_location}
+                  onChange={handleChange}
+                />
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Pay Amount</Form.Label>
@@ -111,7 +125,13 @@ function JobModal({ showModal, handleClose, handleSubmit, handleDelete, initialD
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Delivery Location *</Form.Label>
-                <Form.Control type="text" name="delivery_location" value={formData.delivery_location} onChange={handleChange} />
+                <Form.Control
+                  className={`${highlightFields["Delivery Location"] ? "highlight" : ""}`}
+                  type="text"
+                  name="delivery_location"
+                  value={formData.delivery_location}
+                  onChange={handleChange}
+                />
               </Form.Group>
             </Col>
           </Row>

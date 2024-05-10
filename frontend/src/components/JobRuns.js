@@ -31,12 +31,18 @@ const handleSubmit = async (formData) => {
     if (!formData || !formData.delivery_location.trim()) {
       missingFields.push("Delivery Location");
     }
+    
 
     if (missingFields.length > 0) {
+      const fieldsToUpdate = missingFields.reduce((acc, field) => ({ ...acc, [field]: true }), {});
+      setHighlightFields(fieldsToUpdate);
+
       alert("Please fill out the following required fields: " + missingFields.join(", ") + ".");
+
       return false; // Prevent form submission
     }
 
+    setHighlightFields({});
     return true; // Proceed with form submission if all fields are filled
   }
 
@@ -47,7 +53,7 @@ const handleSubmit = async (formData) => {
 
   try {
     // Make a POST request to update the job run data on the server
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/jobs`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,6 +75,7 @@ const handleSubmit = async (formData) => {
 
 
   const handleOpenModal = () => {
+    setHighlightFields({});
     setShowModal(true);
   };
 
@@ -123,7 +130,7 @@ const handleSubmit = async (formData) => {
             ))}
           </tbody>
         </Table>
-        <JobRunModal showModal={showModal} handleClose={handleCloseModal} handleSubmit={handleSubmit} />
+        <JobRunModal showModal={showModal} handleClose={handleCloseModal} handleSubmit={handleSubmit} highlightFields={highlightFields} />
       </div>
     </div>
   );
