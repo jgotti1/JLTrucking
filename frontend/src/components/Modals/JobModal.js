@@ -94,7 +94,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Pay Amount</Form.Label>
-                <Form.Control type="text" name="job_pay" value={formData.job_pay} onChange={handleChange} />
+                <Form.Control className={`${highlightFields["Job Pay"] ? "highlight" : ""}`} type="text" name="job_pay" value={formData.job_pay} onChange={handleChange} />
               </Form.Group>
             </Col>
             <Col>
@@ -121,7 +121,13 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Ending Mileage</Form.Label>
-                <Form.Control type="text" name="ending_mileage" value={formData.ending_mileage} onChange={handleChange} />
+                <Form.Control
+                  className={`${highlightFields["Ending Mileage"] ? "highlight" : ""}`}
+                  type="text"
+                  name="ending_mileage"
+                  value={formData.ending_mileage}
+                  onChange={handleChange}
+                />
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Delivery Location *</Form.Label>

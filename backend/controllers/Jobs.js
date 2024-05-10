@@ -53,9 +53,6 @@ router.post('/', async (req, res) => {
     }
 
       
-    if (!job_date || !job_type || !truck_id || !driver_id || !status || !starting_mileage || !ending_mileage || !pickup_location || !delivery_location ) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
 
         const newJob = await db.query(
             'INSERT INTO jobruns (job_date, job_type, truck_id, driver_id, status, complete_time, starting_mileage, ending_mileage, po_number, pickup_location, delivery_location, job_pay, notes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
@@ -97,10 +94,7 @@ router.put('/:id', async (req, res) => {
         complete_time = req.body.completedDate;
       }
 
-      if (!job_date || !job_type || !truck_id || !driver_id || !status || !starting_mileage || !ending_mileage || !pickup_location || !delivery_location) {
-        return res.status(400).json({ message: "Missing required fields" });
-      }
-      
+   
         const updatedJob = await db.query(
             'UPDATE jobruns SET job_date = $1, job_type = $2, truck_id = $3, driver_id = $4, status = $5, complete_time = $6, starting_mileage = $7, ending_mileage = $8, po_number = $9, pickup_location = $10, delivery_location = $11, job_pay = $12, notes = $13 WHERE id = $14 RETURNING *',
             [job_date, job_type, truck_id, driver_id, status, complete_time, starting_mileage, ending_mileage, po_number, pickup_location, delivery_location, job_pay, notes, id]

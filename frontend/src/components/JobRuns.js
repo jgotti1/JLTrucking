@@ -13,43 +13,66 @@ const JobRunsViewer = () => {
 const handleSubmit = async (formData) => {
   console.log(formData);
 
-  function validateForm(formData) {
-    let missingFields = [];
+function validateForm(formData) {
+  let missingFields = [];
+  let nonNumericFields = [];
 
-    if (!formData || !formData.job_date.trim()) {
-      missingFields.push("Job Date");
-    }
-    if (!formData || !formData.job_type.trim()) {
-      missingFields.push("Job Type");
-    }
-    if (!formData || !formData.starting_mileage.trim()) {
-      missingFields.push("Starting Mileage");
-    }
-    if (!formData || !formData.pickup_location.trim()) {
-      missingFields.push("Pickup Location");
-    }
-    if (!formData || !formData.delivery_location.trim()) {
-      missingFields.push("Delivery Location");
-    }
-    
-
-    if (missingFields.length > 0) {
-      const fieldsToUpdate = missingFields.reduce((acc, field) => ({ ...acc, [field]: true }), {});
-      setHighlightFields(fieldsToUpdate);
-
-      alert("Please fill out the following required fields: " + missingFields.join(", ") + ".");
-
-      return false; // Prevent form submission
-    }
-
-    setHighlightFields({});
-    return true; // Proceed with form submission if all fields are filled
+  if (!formData || !formData.job_date.trim()) {
+    missingFields.push("Job Date");
+  }
+  if (!formData || !formData.job_type.trim()) {
+    missingFields.push("Job Type");
+  }
+  if (!formData || !formData.starting_mileage.trim()) {
+    missingFields.push("Starting Mileage");
+  } else if (isNaN(formData.starting_mileage)) {
+    nonNumericFields.push("Starting Mileage");
+  }
+  // Changed to only check numeric validity if not blank
+  if (formData.ending_mileage.trim() && isNaN(formData.ending_mileage)) {
+    nonNumericFields.push("Ending Mileage");
+  }
+  // Changed to only check numeric validity if not blank
+  if (formData.job_pay.trim() && isNaN(formData.job_pay)) {
+    nonNumericFields.push("Job Pay");
+  }
+  if (!formData || !formData.pickup_location.trim()) {
+    missingFields.push("Pickup Location");
+  }
+  if (!formData || !formData.delivery_location.trim()) {
+    missingFields.push("Delivery Location");
   }
 
-  // Make sure to pass formData to validateForm
-  if (!validateForm(formData)) {
-    return; // Stop the function if validation fails
+  let alerts = [];
+  if (missingFields.length > 0) {
+    alerts.push("Please fill out the following required fields: " + missingFields.join(", ") + ".");
   }
+  if (nonNumericFields.length > 0) {
+    alerts.push("The following fields must be numeric: " + nonNumericFields.join(", ") + ".");
+  }
+
+  if (alerts.length > 0) {
+    const fieldsToUpdate = [...missingFields, ...nonNumericFields].reduce((acc, field) => ({ ...acc, [field]: true }), {});
+    setHighlightFields(fieldsToUpdate);
+
+    alert(alerts.join("\n"));
+
+    return false; // Prevent form submission
+  }
+
+  setHighlightFields({});
+  return true; // Proceed with form submission if all fields are filled and valid
+}
+
+// Make sure to pass formData to validateForm
+if (!validateForm(formData)) {
+  return; // Stop the function if validation fails
+}
+
+   const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
+     acc[key] = value.trim() === "" ? null : value;
+     return acc;
+   }, {});
 
   try {
     // Make a POST request to update the job run data on the server
@@ -58,7 +81,7 @@ const handleSubmit = async (formData) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(processedFormData),
     });
 
     if (!response.ok) {
