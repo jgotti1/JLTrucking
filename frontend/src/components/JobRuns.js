@@ -8,30 +8,65 @@ const JobRunsViewer = () => {
   const { jobRuns } = useContext(JobRunsContext);
   const [showModal, setShowModal] = useState(false);
   const { updateJobRuns } = useContext(JobRunsContext);
+  const [highlightFields, setHighlightFields] = useState({});
 
-  const handleSubmit = async (formData) => {
-    console.log(formData)
-    try {
-      // Make a PUT request to update the job run data on the server
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+const handleSubmit = async (formData) => {
+  console.log(formData);
 
-      if (!response.ok) {
-        throw new Error("Failed to update job run data");
-      }
+  function validateForm(formData) {
+    let missingFields = [];
 
-      // If the request is successful, update the job runs context with the new data
-      updateJobRuns([...jobRuns, formData]);
-    } catch (error) {
-      console.error("Error updating job run data:", error);
+    if (!formData || !formData.job_date.trim()) {
+      missingFields.push("Job Date");
     }
-    setShowModal(false)
-  };
+    if (!formData || !formData.job_type.trim()) {
+      missingFields.push("Job Type");
+    }
+    if (!formData || !formData.starting_mileage.trim()) {
+      missingFields.push("Starting Mileage");
+    }
+    if (!formData || !formData.pickup_location.trim()) {
+      missingFields.push("Pickup Location");
+    }
+    if (!formData || !formData.delivery_location.trim()) {
+      missingFields.push("Delivery Location");
+    }
+
+    if (missingFields.length > 0) {
+      alert("Please fill out the following required fields: " + missingFields.join(", ") + ".");
+      return false; // Prevent form submission
+    }
+
+    return true; // Proceed with form submission if all fields are filled
+  }
+
+  // Make sure to pass formData to validateForm
+  if (!validateForm(formData)) {
+    return; // Stop the function if validation fails
+  }
+
+  try {
+    // Make a POST request to update the job run data on the server
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/jobs`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update job run data");
+    }
+
+    // If the request is successful, update the job runs context with the new data
+    updateJobRuns([...jobRuns, formData]);
+  } catch (error) {
+    console.error("Error updating job run data:", error);
+  }
+  setShowModal(false);
+};
+
 
   const handleOpenModal = () => {
     setShowModal(true);

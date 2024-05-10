@@ -106,7 +106,7 @@ function JobModal({ showModal, handleClose, handleSubmit, handleDelete, initialD
                 </Form.Select>
               </Form.Group>
               <Form.Group className="mb-2">
-                <Form.Label>Ending Mileage *</Form.Label>
+                <Form.Label>Ending Mileage</Form.Label>
                 <Form.Control type="text" name="ending_mileage" value={formData.ending_mileage} onChange={handleChange} />
               </Form.Group>
               <Form.Group className="mb-2">
