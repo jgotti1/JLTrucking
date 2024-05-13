@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModal({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleSubmit, handleDelete, initialData = {} }) {
+function JobModalEdit({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleSubmit, handleDelete, initialData = {} }) {
 
   const [formData, setFormData] = useState({
     job_date: initialData.job_date || "",
@@ -169,4 +169,4 @@ function JobModal({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditM
   );
 }
 
-export default JobModal;
+export default JobModalEdit;

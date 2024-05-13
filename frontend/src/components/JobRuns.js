@@ -10,10 +10,11 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
   const [selectedRow, setSelectedRow] = useState(null);
   const { updateJobRuns } = useContext(JobRunsContext);
 
-  const handleRowClick = (rowData) => {
-    setSelectedRow(rowData);
-    setShowJobsEditModal(true)
-  };
+ const handleRowClick = (rowData) => {
+   setSelectedRow(rowData);
+   setShowJobsEditModal(true);
+ };
+
 
   useEffect(() => {
     console.log(selectedRow);
@@ -96,13 +97,17 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
       if (!response.ok) {
         throw new Error("Failed to update job run data");
       }
+      const newJobRun = await response.json();
+      // Update the jobRuns state with the new job run data
+      updateJobRuns([...jobRuns, newJobRun]);
 
-      // If the request is successful, update the job runs context with the new data
-      updateJobRuns([...jobRuns, formData]);
+      // Set the newly added row as the selected row
+      setSelectedRow(newJobRun);
     } catch (error) {
       console.error("Error updating job run data:", error);
     }
     setShowJobsModal(false);
+    setShowJobsEditModal(false)
   };
 
   const formatNumberWithCommas = (number) => {
@@ -153,7 +158,14 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
           </tbody>
         </Table>
         <JobRunModal showJobsModal={showJobsModal} handleCloseJobsModal={handleCloseJobsModal} handleSubmit={handleSubmit} highlightJobsFields={highlightJobsFields} />
-        <JobRunModalEdit showJobsEditModal={showJobsEditModal} handleCloseJobsEditModal={handleCloseJobsEditModal} handleSubmit={handleSubmit} highlightJobsFields={highlightJobsFields} />
+        <JobRunModalEdit
+          showJobsEditModal={showJobsEditModal}
+          handleCloseJobsEditModal={handleCloseJobsEditModal}
+          handleSubmit={handleSubmit}
+          // handleDelete={handleDelete}
+          initialData={selectedRow || {}} // Use empty object as default value
+          highlightJobsFields={highlightJobsFields}
+        />
       </div>
     </div>
   );
