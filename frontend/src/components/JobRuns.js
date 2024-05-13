@@ -163,7 +163,7 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
           handleCloseJobsEditModal={handleCloseJobsEditModal}
           handleSubmit={handleSubmit}
           // handleDelete={handleDelete}
-          initialData={selectedRow || {}} // Use empty object as default value
+          initialData={selectedRow || {}} 
           highlightJobsFields={highlightJobsFields}
         />
       </div>
