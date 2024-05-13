@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit, handleDelete, initialData = {} }) {
-  console.log(highlightJobsFields);
+function JobModal({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleSubmit, handleDelete, initialData = {} }) {
 
   const [formData, setFormData] = useState({
     job_date: initialData.job_date || "",
@@ -40,7 +39,7 @@ function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, ha
       status: initialData.status || "In Progress",
       notes: initialData.notes || "",
     });
-  }, [showJobsModal]);
+  }, [showJobsEditModal]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +47,7 @@ function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, ha
   };
 
   return (
-    <Modal show={showJobsModal} onHide={handleCloseJobsModal} className="data-entry-modal">
+    <Modal show={showJobsEditModal} onHide={handleCloseJobsEditModal} className="data-entry-modal">
       <Modal.Header closeButton>
         <Modal.Title>{initialData.id ? "Edit Request" : "New Request"}</Modal.Title>
         <br />
@@ -148,7 +147,7 @@ function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, ha
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseJobsModal}>
+        <Button variant="secondary" onClick={handleCloseJobsEditModal}>
           Close
         </Button>
         {initialData.id && (

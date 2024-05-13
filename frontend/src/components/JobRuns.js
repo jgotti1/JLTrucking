@@ -5,18 +5,19 @@ import { v4 as uuidv4 } from "uuid";
 import JobRunModal from "./Modals/JobModal";
 import JobRunModalEdit from "./Modals/JobModalEdit";
 
-const JobRunsViewer = ({ showJobsModal, setShowJobsModal, handleCloseJobsModal, highlightJobsFields, setHighlightJobsFields }) => {
+const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, setShowJobsEditModal, handleCloseJobsModal, handleCloseJobsEditModal, highlightJobsFields,setHighlightJobsFields }) => {
   const { jobRuns } = useContext(JobRunsContext);
-const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null);
   const { updateJobRuns } = useContext(JobRunsContext);
 
-   const handleRowClick = (rowData) => {
-     setSelectedRow(rowData);
-   };
-  
-    useEffect(() => {
-      console.log(selectedRow);
-    }, [selectedRow]);
+  const handleRowClick = (rowData) => {
+    setSelectedRow(rowData);
+    setShowJobsEditModal(true)
+  };
+
+  useEffect(() => {
+    console.log(selectedRow);
+  }, [selectedRow]);
 
   const handleSubmit = async (formData) => {
     console.log(formData);
@@ -152,6 +153,7 @@ const [selectedRow, setSelectedRow] = useState(null);
           </tbody>
         </Table>
         <JobRunModal showJobsModal={showJobsModal} handleCloseJobsModal={handleCloseJobsModal} handleSubmit={handleSubmit} highlightJobsFields={highlightJobsFields} />
+        <JobRunModalEdit showJobsEditModal={showJobsEditModal} handleCloseJobsEditModal={handleCloseJobsEditModal} handleSubmit={handleSubmit} highlightJobsFields={highlightJobsFields} />
       </div>
     </div>
   );
