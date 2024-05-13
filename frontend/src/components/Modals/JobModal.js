@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handleDelete, initialData = {} }) {
-  console.log(highlightFields);
+function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit, handleDelete, initialData = {} }) {
+  console.log(highlightJobsFields);
 
   const [formData, setFormData] = useState({
     job_date: initialData.job_date || "",
@@ -40,7 +40,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
       status: initialData.status || "In Progress",
       notes: initialData.notes || "",
     });
-  }, [showModal]);
+  }, [showJobsModal]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +48,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
   };
 
   return (
-    <Modal show={showModal} onHide={handleClose} className="data-entry-modal">
+    <Modal show={showJobsModal} onHide={handleCloseJobsModal} className="data-entry-modal">
       <Modal.Header closeButton>
         <Modal.Title>{initialData.id ? "Edit Request" : "New Request"}</Modal.Title>
         <br />
@@ -60,22 +60,22 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
             <Col>
               <Form.Group className="mb2">
                 <Form.Label>Job Date *</Form.Label>
-                <Form.Control className={`${highlightFields["Job Date"] ? "highlight" : ""}`} type="date" name="job_date" value={formData.job_date} onChange={handleChange} />
+                <Form.Control className={`${highlightJobsFields["Job Date"] ? "highlight" : ""}`} type="date" name="job_date" value={formData.job_date} onChange={handleChange} />
               </Form.Group>
 
               <Form.Group className="mb-2">
                 <Form.Label>PO Number</Form.Label>
-                <Form.Control type="text" name="po_number" value={formData.po_number} onChange={handleChange} className={`${highlightFields["job_date"] ? "highlight" : ""}`} />
+                <Form.Control type="text" name="po_number" value={formData.po_number} onChange={handleChange} className={`${highlightJobsFields["job_date"] ? "highlight" : ""}`} />
               </Form.Group>
 
               <Form.Group className="mb-2">
                 <Form.Label>Job Type *</Form.Label>
-                <Form.Control className={`${highlightFields["Job Type"] ? "highlight" : ""}`} type="text" name="job_type" value={formData.job_type} onChange={handleChange} />
+                <Form.Control className={`${highlightJobsFields["Job Type"] ? "highlight" : ""}`} type="text" name="job_type" value={formData.job_type} onChange={handleChange} />
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Starting Mileage *</Form.Label>
                 <Form.Control
-                  className={`${highlightFields["Starting Mileage"] ? "highlight" : ""}`}
+                  className={`${highlightJobsFields["Starting Mileage"] ? "highlight" : ""}`}
                   type="text"
                   name="starting_mileage"
                   value={formData.starting_mileage}
@@ -85,7 +85,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
               <Form.Group className="mb-2">
                 <Form.Label>Pickup Location *</Form.Label>
                 <Form.Control
-                  className={`${highlightFields["Pickup Location"] ? "highlight" : ""}`}
+                  className={`${highlightJobsFields["Pickup Location"] ? "highlight" : ""}`}
                   type="text"
                   name="pickup_location"
                   value={formData.pickup_location}
@@ -94,7 +94,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
               </Form.Group>
               <Form.Group className="mb-2">
                 <Form.Label>Pay Amount</Form.Label>
-                <Form.Control className={`${highlightFields["Job Pay"] ? "highlight" : ""}`} type="text" name="job_pay" value={formData.job_pay} onChange={handleChange} />
+                <Form.Control className={`${highlightJobsFields["Job Pay"] ? "highlight" : ""}`} type="text" name="job_pay" value={formData.job_pay} onChange={handleChange} />
               </Form.Group>
             </Col>
             <Col>
@@ -122,7 +122,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
               <Form.Group className="mb-2">
                 <Form.Label>Ending Mileage</Form.Label>
                 <Form.Control
-                  className={`${highlightFields["Ending Mileage"] ? "highlight" : ""}`}
+                  className={`${highlightJobsFields["Ending Mileage"] ? "highlight" : ""}`}
                   type="text"
                   name="ending_mileage"
                   value={formData.ending_mileage}
@@ -132,7 +132,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
               <Form.Group className="mb-2">
                 <Form.Label>Delivery Location *</Form.Label>
                 <Form.Control
-                  className={`${highlightFields["Delivery Location"] ? "highlight" : ""}`}
+                  className={`${highlightJobsFields["Delivery Location"] ? "highlight" : ""}`}
                   type="text"
                   name="delivery_location"
                   value={formData.delivery_location}
@@ -148,7 +148,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseJobsModal}>
           Close
         </Button>
         {initialData.id && (
@@ -161,7 +161,7 @@ function JobModal({ highlightFields, showModal, handleClose, handleSubmit, handl
             Update
           </Button>
         ) : (
-          <Button variant="primary" onClick={() => handleSubmit(formData)}>
+         <Button variant="primary" onClick={() => handleSubmit(formData)}>
             Save Changes
           </Button>
         )}
