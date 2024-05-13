@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
 function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit, handleDelete, initialData = {} }) {
+  console.log(highlightJobsFields);
 
   const [formData, setFormData] = useState({
     job_date: initialData.job_date || "",

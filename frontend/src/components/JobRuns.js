@@ -1,13 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { JobRunsContext } from "../Context/JobRunsContext";
-import JobRunModal from "./Modals/JobModal";
 import { v4 as uuidv4 } from "uuid";
+import JobRunModal from "./Modals/JobModal";
+import JobRunModalEdit from "./Modals/JobModalEdit";
 
 const JobRunsViewer = ({ showJobsModal, setShowJobsModal, handleCloseJobsModal, highlightJobsFields, setHighlightJobsFields }) => {
   const { jobRuns } = useContext(JobRunsContext);
-
+const [selectedRow, setSelectedRow] = useState(null);
   const { updateJobRuns } = useContext(JobRunsContext);
+
+   const handleRowClick = (rowData) => {
+     setSelectedRow(rowData);
+   };
+  
+    useEffect(() => {
+      console.log(selectedRow);
+    }, [selectedRow]);
 
   const handleSubmit = async (formData) => {
     console.log(formData);
@@ -122,7 +131,7 @@ const JobRunsViewer = ({ showJobsModal, setShowJobsModal, handleCloseJobsModal, 
           </thead>
           <tbody>
             {jobRuns.map((jobRun) => (
-              <tr key={jobRun.id || uuidv4()}>
+              <tr key={jobRun.id || uuidv4()} onClick={() => handleRowClick(jobRun)}>
                 <td>
                   {new Date(jobRun.job_date).toISOString().split("T")[0].split("-").slice(1).concat(new Date(jobRun.job_date).toISOString().split("T")[0].split("-")[0]).join("/")}
                 </td>
