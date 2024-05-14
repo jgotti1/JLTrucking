@@ -1,30 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
 function JobModalEdit({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleSubmit, handleDelete, initialData = {} }) {
 
-
-const date = new Date(initialData.job_date);
-// Format the date to "yyyy-MM-dd" format
-const formattedDate = date.toISOString().split("T")[0];
-
-
-const [formData, setFormData] = useState({
-  job_date: formattedDate || "",
-  po_number: initialData.po_number || "",
-  job_type: initialData.job_type || "",
-  truck_id: initialData.truck_id || "1",
-  driver_id: initialData.driver_id || "JL",
-  starting_mileage: initialData.starting_mileage || "",
-  ending_mileage: initialData.ending_mileage || "",
-  pickup_location: initialData.pickup_location || "",
-  delivery_location: initialData.delivery_location || "",
-  job_pay: initialData.job_pay || "",
-  status: initialData.status || "In Progress",
-  notes: initialData.notes || "",
-});
+  const [formData, setFormData] = useState({});
+  
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const month = ("0" + (d.getMonth() + 1)).slice(-2);
+    const day = ("0" + d.getDate()).slice(-2);
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
 
 
+useEffect(() => {
+  setFormData({
+    job_date: initialData.job_date ? formatDate(initialData.job_date) : "",
+    po_number: initialData.po_number || "",
+    job_type: initialData.job_type || "",
+    truck_id: initialData.truck_id || "1",
+    driver_id: initialData.driver_id || "JL",
+    starting_mileage: initialData.starting_mileage || "",
+    ending_mileage: initialData.ending_mileage || "",
+    pickup_location: initialData.pickup_location || "",
+    delivery_location: initialData.delivery_location || "",
+    job_pay: initialData.job_pay || "",
+    status: initialData.status || "In Progress",
+    notes: initialData.notes || "",
+  });
+}, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

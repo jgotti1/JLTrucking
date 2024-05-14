@@ -149,7 +149,7 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
                 <td>{jobRun.ending_mileage}</td>
                 <td>{jobRun.pickup_location}</td>
                 <td>{jobRun.delivery_location}</td>
-                {jobRun.job_pay != null ? `$${jobRun.job_pay}` : "-"}
+                <td>{jobRun.job_pay != null ? `$${jobRun.job_pay}` : "-"}</td>
                 <td>{jobRun.status}</td>
                 <td>{jobRun.complete_time ? new Date(jobRun.complete_time).toLocaleString() : ""}</td>
                 <td>{jobRun.notes}</td>

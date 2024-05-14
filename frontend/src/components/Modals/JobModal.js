@@ -3,20 +3,7 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
 function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit, handleDelete, initialData = {} }) {
 
-  const [formData, setFormData] = useState({
-    job_date: initialData.job_date || "",
-    po_number: initialData.po_number || "",
-    job_type: initialData.job_type || "",
-    truck_id: initialData.truck_id || "1",
-    driver_id: initialData.driver_id || "JL",
-    starting_mileage: initialData.starting_mileage || "",
-    ending_mileage: initialData.ending_mileage || "",
-    pickup_location: initialData.pickup_location || "",
-    delivery_location: initialData.delivery_location || "",
-    job_pay: initialData.job_pay || "",
-    status: initialData.status || "In Progress",
-    notes: initialData.notes || "",
-  });
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     if (initialData.job_date) {
