@@ -127,15 +127,25 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
     }
   };
 
-  const handleEdit = async (formData) => {
-    try {
-      await editJobRun(selectedRow.id, formData);
-      setShowJobsEditModal(false);
-    } catch (error) {
-      console.error("Error editing job run:", error);
-    }
-  };
+ const handleEdit = async (formData) => {
+   const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
+     if (value === null || value === undefined || value === "") {
+       acc[key] = null;
+     } else if (typeof value === "string") {
+       acc[key] = value.trim();
+     } else {
+       acc[key] = value;
+     }
+     return acc;
+   }, {});
 
+   try {
+     await editJobRun(selectedRow.id, processedFormData);
+     setShowJobsEditModal(false);
+   } catch (error) {
+     console.error("Error editing job run:", error);
+   }
+ };
 
   const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
