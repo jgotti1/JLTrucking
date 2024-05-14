@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModalEdit({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleSubmit, handleDelete, initialData = {} }) {
+function JobModalEdit({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleEdit, handleDelete, initialData = {} }) {
 
   const [formData, setFormData] = useState({});
   
@@ -147,11 +147,11 @@ useEffect(() => {
           </Button>
         )}
         {initialData.id ? (
-          <Button variant="warning" onClick={() => handleSubmit(formData)}>
+          <Button variant="warning" onClick={() => handleEdit(formData)}>
             Update
           </Button>
         ) : (
-         <Button variant="primary" onClick={() => handleSubmit(formData)}>
+         <Button variant="primary" onClick={() => handleEdit(formData)}>
             Save Changes
           </Button>
         )}

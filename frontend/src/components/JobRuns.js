@@ -6,7 +6,7 @@ import JobRunModal from "./Modals/JobModal";
 import JobRunModalEdit from "./Modals/JobModalEdit";
 
 const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, setShowJobsEditModal, handleCloseJobsModal, handleCloseJobsEditModal, highlightJobsFields,setHighlightJobsFields }) => {
-  const { jobRuns, updateJobRuns, deleteJobRun, editJobRun } = useContext(JobRunsContext);
+  const { jobRuns, updateJobRuns, deleteJobRun, editJobRun, fetchJobRunsData } = useContext(JobRunsContext);
   const [selectedRow, setSelectedRow] = useState(null);
 
 
@@ -17,8 +17,9 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
 
 
   useEffect(() => {
-    console.log(selectedRow);
-  }, [selectedRow]);
+    fetchJobRunsData();
+  },);
+
 
   const handleSubmit = async (formData) => {
     console.log(formData);
