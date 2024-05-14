@@ -79,10 +79,16 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
       return; // Stop the function if validation fails
     }
 
-    const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
-      acc[key] = value.trim() === "" ? null : value;
-      return acc;
-    }, {});
+   const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
+     if (value === null || value === undefined) {
+       acc[key] = null;
+     } else if (typeof value === "string") {
+       acc[key] = value.trim() === "" ? null : value.trim();
+     } else {
+       acc[key] = value;
+     }
+     return acc;
+   }, {});
 
     try {
       // Make a POST request to update the job run data on the server
