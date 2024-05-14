@@ -6,9 +6,9 @@ import JobRunModal from "./Modals/JobModal";
 import JobRunModalEdit from "./Modals/JobModalEdit";
 
 const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, setShowJobsEditModal, handleCloseJobsModal, handleCloseJobsEditModal, highlightJobsFields,setHighlightJobsFields }) => {
-  const { jobRuns } = useContext(JobRunsContext);
+  const { jobRuns, updateJobRuns, deleteJobRun, editJobRun } = useContext(JobRunsContext);
   const [selectedRow, setSelectedRow] = useState(null);
-  const { updateJobRuns } = useContext(JobRunsContext);
+
 
  const handleRowClick = (rowData) => {
    setSelectedRow(rowData);
@@ -110,6 +110,26 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
     setShowJobsEditModal(false)
   };
 
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteJobRun(id);
+      setShowJobsEditModal(false);
+    } catch (error) {
+      console.error("Error deleting job run:", error);
+    }
+  };
+
+  const handleEdit = async (formData) => {
+    try {
+      await editJobRun(selectedRow.id, formData);
+      setShowJobsEditModal(false);
+    } catch (error) {
+      console.error("Error editing job run:", error);
+    }
+  };
+
+
   const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -162,9 +182,10 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
           showJobsEditModal={showJobsEditModal}
           handleCloseJobsEditModal={handleCloseJobsEditModal}
           handleSubmit={handleSubmit}
-          // handleDelete={handleDelete}
-          initialData={selectedRow || {}} 
+          initialData={selectedRow || {}}
           highlightJobsFields={highlightJobsFields}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
         />
       </div>
     </div>

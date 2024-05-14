@@ -31,9 +31,53 @@ const JobRunsProvider = ({ children }) => {
     fetchJobRunsData();
   }, []);
 
+  // Function to delete a job run
+  const deleteJobRun = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete job run");
+      }
+      setJobRuns(jobRuns.filter((job) => job.id !== id));
+    } catch (error) {
+      console.error("Error deleting job run:", error);
+    }
+  };
+
+  // Function to edit a job run
+  const editJobRun = async (id, updatedJobRun) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedJobRun),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update job run");
+      }
+      const updatedJob = await response.json();
+      setJobRuns(jobRuns.map((job) => (job.id === id ? updatedJob : job)));
+    } catch (error) {
+      console.error("Error updating job run:", error);
+    }
+  };
+
   return (
-    // Provide the job runs data and function to update it to the children components
-    <JobRunsContext.Provider value={{ jobRuns, setJobRuns, updateJobRuns }}>{children}</JobRunsContext.Provider>
+    <JobRunsContext.Provider
+      value={{
+        jobRuns,
+        setJobRuns,
+        updateJobRuns,
+        fetchJobRunsData,
+        deleteJobRun,
+        editJobRun,
+      }}>
+      {children}
+    </JobRunsContext.Provider>
   );
 };
 
