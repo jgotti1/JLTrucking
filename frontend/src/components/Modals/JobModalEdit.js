@@ -40,7 +40,7 @@ useEffect(() => {
   return (
     <Modal show={showJobsEditModal} onHide={handleCloseJobsEditModal} className="data-entry-modal">
       <Modal.Header closeButton>
-        <Modal.Title>{selectedRow.id ? "Edit Request" : "New Request"}</Modal.Title>
+        <Modal.Title>"Edit Request Form"</Modal.Title>
         <br />
       </Modal.Header>
       <small className="required">* Required fields</small>
@@ -141,20 +141,12 @@ useEffect(() => {
         <Button variant="secondary" onClick={handleCloseJobsEditModal}>
           Close
         </Button>
-        {selectedRow.id && (
           <Button variant="danger" onClick={() => handleDelete(selectedRow.id)} style={{ marginRight: "auto" }}>
             Delete
           </Button>
-        )}
-        {selectedRow.id ? (
           <Button variant="warning" onClick={() => handleEdit(formData)}>
             Update
           </Button>
-        ) : (
-         <Button variant="primary" onClick={() => handleEdit(formData)}>
-            Save Changes
-          </Button>
-        )}
       </Modal.Footer>
     </Modal>
   );

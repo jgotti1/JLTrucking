@@ -25,7 +25,7 @@ const JobRunsViewer = ({
 
   useEffect(() => {
     fetchJobRunsData();
-  }, []);
+  });
 
   function validateForm(formData) {
     let missingFields = [];

@@ -6,12 +6,7 @@ function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, ha
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    // if (initialData.job_date) {
-    //   // Convert ISO 8601 format to YYYY-MM-DD format
-    //   const date = new Date(initialData.job_date);
-    //   const formattedDate = date.toISOString().split("T")[0]; // This will give you YYYY-MM-DD format
-    //   initialData.job_date = formattedDate;
-    // }
+
     setFormData({
       job_date: "",
       po_number: "",
@@ -36,7 +31,7 @@ function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, ha
   return (
     <Modal show={showJobsModal} onHide={handleCloseJobsModal} className="data-entry-modal">
       <Modal.Header closeButton>
-        <Modal.Title>"Edit Request"</Modal.Title>
+        <Modal.Title>"New Job Form"</Modal.Title>
         <br />
       </Modal.Header>
       <small className="required">* Required fields</small>

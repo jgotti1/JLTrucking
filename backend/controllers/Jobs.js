@@ -106,7 +106,17 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-
+// DELETE a job
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.query("DELETE FROM jobruns WHERE id = $1", [id]);
+    res.json({ message: "Job run deleted successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // Export the router
 module.exports = router;
