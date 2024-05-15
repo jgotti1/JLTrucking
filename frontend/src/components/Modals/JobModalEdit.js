@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModalEdit({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleEdit, handleDelete, initialData = {} }) {
+function JobModalEdit({ highlightJobsFields, showJobsEditModal, handleCloseJobsEditModal, handleEdit, handleDelete, selectedRow}) {
 
   const [formData, setFormData] = useState({});
   
@@ -17,20 +17,20 @@ function JobModalEdit({ highlightJobsFields, showJobsEditModal, handleCloseJobsE
 
 useEffect(() => {
   setFormData({
-    job_date: initialData.job_date ? formatDate(initialData.job_date) : "",
-    po_number: initialData.po_number || "",
-    job_type: initialData.job_type || "",
-    truck_id: initialData.truck_id || "1",
-    driver_id: initialData.driver_id || "JL",
-    starting_mileage: initialData.starting_mileage || "",
-    ending_mileage: initialData.ending_mileage || "",
-    pickup_location: initialData.pickup_location || "",
-    delivery_location: initialData.delivery_location || "",
-    job_pay: initialData.job_pay || "",
-    status: initialData.status || "In Progress",
-    notes: initialData.notes || "",
+    job_date: selectedRow.job_date ? formatDate(selectedRow.job_date) : "",
+    po_number: selectedRow.po_number || "",
+    job_type: selectedRow.job_type || "",
+    truck_id: selectedRow.truck_id || "1",
+    driver_id: selectedRow.driver_id || "JL",
+    starting_mileage: selectedRow.starting_mileage || "",
+    ending_mileage: selectedRow.ending_mileage || "",
+    pickup_location: selectedRow.pickup_location || "",
+    delivery_location: selectedRow.delivery_location || "",
+    job_pay: selectedRow.job_pay || "",
+    status: selectedRow.status || "In Progress",
+    notes: selectedRow.notes || "",
   });
-}, [initialData]);
+}, [selectedRow]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +40,7 @@ useEffect(() => {
   return (
     <Modal show={showJobsEditModal} onHide={handleCloseJobsEditModal} className="data-entry-modal">
       <Modal.Header closeButton>
-        <Modal.Title>{initialData.id ? "Edit Request" : "New Request"}</Modal.Title>
+        <Modal.Title>{selectedRow.id ? "Edit Request" : "New Request"}</Modal.Title>
         <br />
       </Modal.Header>
       <small className="required">* Required fields</small>
@@ -141,12 +141,12 @@ useEffect(() => {
         <Button variant="secondary" onClick={handleCloseJobsEditModal}>
           Close
         </Button>
-        {initialData.id && (
-          <Button variant="danger" onClick={() => handleDelete(initialData.id)} style={{ marginRight: "auto" }}>
+        {selectedRow.id && (
+          <Button variant="danger" onClick={() => handleDelete(selectedRow.id)} style={{ marginRight: "auto" }}>
             Delete
           </Button>
         )}
-        {initialData.id ? (
+        {selectedRow.id ? (
           <Button variant="warning" onClick={() => handleEdit(formData)}>
             Update
           </Button>
