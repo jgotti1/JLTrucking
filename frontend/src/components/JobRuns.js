@@ -5,94 +5,96 @@ import { v4 as uuidv4 } from "uuid";
 import JobRunModal from "./Modals/JobModal";
 import JobRunModalEdit from "./Modals/JobModalEdit";
 
-const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, setShowJobsEditModal, handleCloseJobsModal, handleCloseJobsEditModal, highlightJobsFields,setHighlightJobsFields }) => {
+const JobRunsViewer = ({
+  showJobsModal,
+  showJobsEditModal,
+  setShowJobsModal,
+  setShowJobsEditModal,
+  handleCloseJobsModal,
+  handleCloseJobsEditModal,
+  highlightJobsFields,
+  setHighlightJobsFields,
+}) => {
   const { jobRuns, updateJobRuns, deleteJobRun, editJobRun, fetchJobRunsData } = useContext(JobRunsContext);
   const [selectedRow, setSelectedRow] = useState(null);
 
-
- const handleRowClick = (rowData) => {
-   setSelectedRow(rowData);
-   setShowJobsEditModal(true);
- };
-
+  const handleRowClick = (rowData) => {
+    setSelectedRow(rowData);
+    setShowJobsEditModal(true);
+  };
 
   useEffect(() => {
     fetchJobRunsData();
-  },);
+  }, []);
 
+  function validateForm(formData) {
+    let missingFields = [];
+    let nonNumericFields = [];
+
+    if (!formData || !formData.job_date.trim()) {
+      missingFields.push("Job Date");
+    }
+    if (!formData || !formData.job_type.trim()) {
+      missingFields.push("Job Type");
+    }
+    if (!formData || !formData.starting_mileage.trim()) {
+      missingFields.push("Starting Mileage");
+    } else if (isNaN(formData.starting_mileage)) {
+      nonNumericFields.push("Starting Mileage");
+    }
+    if (formData.ending_mileage.trim() && isNaN(formData.ending_mileage)) {
+      nonNumericFields.push("Ending Mileage");
+    }
+    if (formData.job_pay.trim() && isNaN(formData.job_pay)) {
+      nonNumericFields.push("Job Pay");
+    }
+    if (!formData || !formData.pickup_location.trim()) {
+      missingFields.push("Pickup Location");
+    }
+    if (!formData || !formData.delivery_location.trim()) {
+      missingFields.push("Delivery Location");
+    }
+
+    let alerts = [];
+    if (missingFields.length > 0) {
+      alerts.push("Please fill out the following required fields: " + missingFields.join(", ") + ".");
+    }
+    if (nonNumericFields.length > 0) {
+      alerts.push("The following fields must be numeric: " + nonNumericFields.join(", ") + ".");
+    }
+
+    if (alerts.length > 0) {
+      const fieldsToUpdate = [...missingFields, ...nonNumericFields].reduce((acc, field) => ({ ...acc, [field]: true }), {});
+      setHighlightJobsFields(fieldsToUpdate);
+
+      alert(alerts.join("\n"));
+
+      return false; // Prevent form submission
+    }
+
+    setHighlightJobsFields({});
+    return true; // Proceed with form submission if all fields are filled and valid
+  }
 
   const handleSubmit = async (formData) => {
     console.log(formData);
 
-    function validateForm(formData) {
-      let missingFields = [];
-      let nonNumericFields = [];
-
-      if (!formData || !formData.job_date.trim()) {
-        missingFields.push("Job Date");
-      }
-      if (!formData || !formData.job_type.trim()) {
-        missingFields.push("Job Type");
-      }
-      if (!formData || !formData.starting_mileage.trim()) {
-        missingFields.push("Starting Mileage");
-      } else if (isNaN(formData.starting_mileage)) {
-        nonNumericFields.push("Starting Mileage");
-      }
-      // Changed to only check numeric validity if not blank
-      if (formData.ending_mileage.trim() && isNaN(formData.ending_mileage)) {
-        nonNumericFields.push("Ending Mileage");
-      }
-      // Changed to only check numeric validity if not blank
-      if (formData.job_pay.trim() && isNaN(formData.job_pay)) {
-        nonNumericFields.push("Job Pay");
-      }
-      if (!formData || !formData.pickup_location.trim()) {
-        missingFields.push("Pickup Location");
-      }
-      if (!formData || !formData.delivery_location.trim()) {
-        missingFields.push("Delivery Location");
-      }
-
-      let alerts = [];
-      if (missingFields.length > 0) {
-        alerts.push("Please fill out the following required fields: " + missingFields.join(", ") + ".");
-      }
-      if (nonNumericFields.length > 0) {
-        alerts.push("The following fields must be numeric: " + nonNumericFields.join(", ") + ".");
-      }
-
-      if (alerts.length > 0) {
-        const fieldsToUpdate = [...missingFields, ...nonNumericFields].reduce((acc, field) => ({ ...acc, [field]: true }), {});
-        setHighlightJobsFields(fieldsToUpdate);
-
-        alert(alerts.join("\n"));
-
-        return false; // Prevent form submission
-      }
-
-      setHighlightJobsFields({});
-      return true; // Proceed with form submission if all fields are filled and valid
-    }
-
-    // Make sure to pass formData to validateForm
     if (!validateForm(formData)) {
       return; // Stop the function if validation fails
     }
 
-   const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
-     if (value === null || value === undefined) {
-       acc[key] = null;
-     } else if (typeof value === "string") {
-       acc[key] = value.trim() === "" ? null : value.trim();
-     } else {
-       acc[key] = value;
-     }
-     return acc;
-   }, {});
+    const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
+      if (value === null || value === undefined) {
+        acc[key] = null;
+      } else if (typeof value === "string") {
+        acc[key] = value.trim() === "" ? null : value.trim();
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
 
     try {
-      // Make a POST request to update the job run data on the server
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs`, {
         method: "POST",
         headers: {
@@ -105,47 +107,49 @@ const JobRunsViewer = ({ showJobsModal, showJobsEditModal, setShowJobsModal, set
         throw new Error("Failed to update job run data");
       }
       const newJobRun = await response.json();
-      // Update the jobRuns state with the new job run data
       updateJobRuns([...jobRuns, newJobRun]);
-
-      // Set the newly added row as the selected row
       setSelectedRow(newJobRun);
     } catch (error) {
       console.error("Error updating job run data:", error);
     }
     setShowJobsModal(false);
-    setShowJobsEditModal(false)
+    setHighlightJobsFields({}); // Reset highlight fields
+    setShowJobsEditModal(false);
   };
-
 
   const handleDelete = async (id) => {
     try {
       await deleteJobRun(id);
       setShowJobsEditModal(false);
+      setHighlightJobsFields({}); // Reset highlight fields
     } catch (error) {
       console.error("Error deleting job run:", error);
     }
   };
 
- const handleEdit = async (formData) => {
-   const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
-     if (value === null || value === undefined || value === "") {
-       acc[key] = null;
-     } else if (typeof value === "string") {
-       acc[key] = value.trim();
-     } else {
-       acc[key] = value;
-     }
-     return acc;
-   }, {});
+  const handleEdit = async (formData) => {
+    if (!validateForm(formData)) {
+      return; // Stop the function if validation fails
+    }
 
-   try {
-     await editJobRun(selectedRow.id, processedFormData);
-     setShowJobsEditModal(false);
-   } catch (error) {
-     console.error("Error editing job run:", error);
-   }
- };
+    const processedFormData = Object.entries(formData).reduce((acc, [key, value]) => {
+      if (value === null || value === undefined || value === "") {
+        acc[key] = null;
+      } else if (typeof value === "string") {
+        acc[key] = value.trim();
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    try {
+      await editJobRun(selectedRow.id, processedFormData);
+      setShowJobsEditModal(false);
+    } catch (error) {
+      console.error("Error editing job run:", error);
+    }
+  };
 
   const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
