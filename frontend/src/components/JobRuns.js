@@ -15,6 +15,7 @@ const JobRunsViewer = ({
   highlightJobsFields,
   setHighlightJobsFields,
 }) => {
+  
   const { jobRuns, updateJobRuns, deleteJobRun, editJobRun, fetchJobRunsData } = useContext(JobRunsContext);
   const [selectedRow, setSelectedRow] = useState(null);
 
@@ -192,7 +193,7 @@ const JobRunsViewer = ({
                 <td>{jobRun.job_pay != null ? `$${formatNumberWithCommas(jobRun.job_pay)}` : "-"}</td>
                 <td>{jobRun.status}</td>
                 <td>{jobRun.complete_time ? new Date(jobRun.complete_time).toLocaleString() : "-"}</td>
-                <td>{jobRun.notes}</td>
+                <td>{jobRun.notes != null ? jobRun.notes : "-"}</td>
               </tr>
             ))}
           </tbody>
