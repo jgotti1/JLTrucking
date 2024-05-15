@@ -187,12 +187,11 @@ const JobRunsViewer = ({
                 <td>{jobRun.truck_id}</td>
                 <td>{jobRun.driver_id}</td>
                 <td>{formatNumberWithCommas(jobRun.starting_mileage)}</td>
-                <td>{jobRun.ending_mileage}</td>
-                <td>{jobRun.pickup_location}</td>
+                <td>{jobRun.ending_mileage !== null ? formatNumberWithCommas(jobRun.ending_mileage) : "-"}</td> 
                 <td>{jobRun.delivery_location}</td>
-                <td>{jobRun.job_pay != null ? `$${jobRun.job_pay}` : "-"}</td>
+                <td>{jobRun.job_pay != null ? `$${formatNumberWithCommas(jobRun.job_pay)}` : "-"}</td>
                 <td>{jobRun.status}</td>
-                <td>{jobRun.complete_time ? new Date(jobRun.complete_time).toLocaleString() : ""}</td>
+                <td>{jobRun.complete_time ? new Date(jobRun.complete_time).toLocaleString() : "-"}</td>
                 <td>{jobRun.notes}</td>
               </tr>
             ))}
