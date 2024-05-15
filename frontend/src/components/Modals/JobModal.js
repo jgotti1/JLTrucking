@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit, handleDelete, initialData = {} }) {
+function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit, handleDelete}) {
 
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    if (initialData.job_date) {
-      // Convert ISO 8601 format to YYYY-MM-DD format
-      const date = new Date(initialData.job_date);
-      const formattedDate = date.toISOString().split("T")[0]; // This will give you YYYY-MM-DD format
-      initialData.job_date = formattedDate;
-    }
+    // if (initialData.job_date) {
+    //   // Convert ISO 8601 format to YYYY-MM-DD format
+    //   const date = new Date(initialData.job_date);
+    //   const formattedDate = date.toISOString().split("T")[0]; // This will give you YYYY-MM-DD format
+    //   initialData.job_date = formattedDate;
+    // }
     setFormData({
-      job_date: initialData.job_date || "",
-      po_number: initialData.po_number || "",
-      job_type: initialData.job_type || "",
-      truck_id: initialData.truck_id || "1",
-      driver_id: initialData.driver_id || "JL",
-      starting_mileage: initialData.starting_mileage || "",
-      ending_mileage: initialData.ending_mileage || "",
-      pickup_location: initialData.pickup_location || "",
-      delivery_location: initialData.delivery_location || "",
-      job_pay: initialData.job_pay || "",
-      status: initialData.status || "In Progress",
-      notes: initialData.notes || "",
+      job_date: "",
+      po_number: "",
+      job_type:  "",
+      truck_id:  "1",
+      driver_id:  "JL",
+      starting_mileage:  "",
+      ending_mileage:  "",
+      pickup_location: "",
+      delivery_location: "",
+      job_pay: "",
+      status: "In Progress",
+      notes: "",
     });
   }, [showJobsModal]);
 
@@ -36,7 +36,7 @@ function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, ha
   return (
     <Modal show={showJobsModal} onHide={handleCloseJobsModal} className="data-entry-modal">
       <Modal.Header closeButton>
-        <Modal.Title>{initialData.id ? "Edit Request" : "New Request"}</Modal.Title>
+        <Modal.Title>"Edit Request"</Modal.Title>
         <br />
       </Modal.Header>
       <small className="required">* Required fields</small>
@@ -137,20 +137,11 @@ function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, ha
         <Button variant="secondary" onClick={handleCloseJobsModal}>
           Close
         </Button>
-        {initialData.id && (
-          <Button variant="danger" onClick={() => handleDelete(initialData.id)} style={{ marginRight: "auto" }}>
-            Delete
-          </Button>
-        )}
-        {initialData.id ? (
-          <Button variant="warning" onClick={() => handleSubmit(formData)}>
-            Update
-          </Button>
-        ) : (
+ 
          <Button variant="primary" onClick={() => handleSubmit(formData)}>
             Save Changes
           </Button>
-        )}
+        
       </Modal.Footer>
     </Modal>
   );

@@ -8,7 +8,7 @@ const router = express.Router();
 // GET all jobs
 router.get("/", async (req, res) => {
   try {
-    const jobs = await db.query("SELECT * FROM jobruns");
+    const jobs = await db.query("SELECT * FROM jobruns ORDER BY job_date");
     res.json(jobs.rows);
   } catch (err) {
     console.error(err.message);
