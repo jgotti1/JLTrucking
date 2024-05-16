@@ -50,3 +50,16 @@
 .highlight {
     border: 2px solid red;
 }
+
+.FilterButton{
+
+  font-size: 12px;
+}
+
+.checkbox-container {
+  display: flex; 
+  align-items: center; 
+  height: 10px;
+  gap: 8px;
+  margin-top: 8px;;
+}
