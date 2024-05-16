@@ -4,6 +4,7 @@ import { NavigationContext } from "./Context/NavigationContext";
 import { Button, Form } from "react-bootstrap";
 import NavMenu from "./components/NavMenu";
 import JobRuns from "./components/JobRuns"; 
+import DateRangeSearch from "./components/Modals/DateRangeSearch";
 import './App.css';
 
 
@@ -14,6 +15,7 @@ function App() {
   const [showJobsEditModal, setShowJobsEditModal] = useState(false);
   const [filterComplete, setFilterComplete] = useState(false);
   const [filterInProgress, setFilterInProgress] = useState(true);
+  const [showDateRangeSearch, setShowDateRangeSearch] = useState(false);
 
   const handleOpenJobsModal = () => {
      setHighlightJobsFields({});
@@ -31,6 +33,14 @@ function App() {
   
     const handleCloseJobsEditModal = () => {
       setShowJobsEditModal(false);
+  };
+  
+    const handleOpenDateRangeSearch = () => {
+      setShowDateRangeSearch(true); 
+    };
+
+    const handleCloseDateRangeSearch = () => {
+      setShowDateRangeSearch(false); 
     };
 
 
@@ -48,17 +58,11 @@ function App() {
           </Button>
           <Button variant="secondary" className="FilterButton FilterButton open-modal-btn btn-sm" style={{ marginLeft: "0.5rem" }}>
             <div className="checkbox-container d-flex">
-              <Form.Check
-                type="checkbox"
-                label="In Progress"
-                checked={filterInProgress} 
-                onChange={(e) => setFilterInProgress(e.target.checked)}
-                className="mr-2"
-              />
+              <Form.Check type="checkbox" label="In Progress" checked={filterInProgress} onChange={(e) => setFilterInProgress(e.target.checked)} className="mr-2" />
               <Form.Check type="checkbox" label="Complete" checked={console.log("complete")} onChange={(e) => setFilterComplete(e.target.checked)} className="mr-2" />
             </div>
           </Button>
-          <Button variant="secondary" className="FilterButton open-modal-btn btn-sm" style={{ marginLeft: "0.5rem" }}>
+          <Button onClick={handleOpenDateRangeSearch} variant="secondary" className="FilterButton open-modal-btn btn-sm" style={{ marginLeft: "0.5rem" }}>
             Filter by Date
           </Button>
 
@@ -74,6 +78,14 @@ function App() {
             highlightJobsFields={highlightJobsFields}
             setHighlightJobsFields={setHighlightJobsFields}
           />
+
+          {showDateRangeSearch && (
+            <DateRangeSearch
+              show={showDateRangeSearch} // Pass show state
+              handleClose={handleCloseDateRangeSearch} // Pass close function
+              // Add props for date range search functionality (if needed)
+            />
+          )}
         </div>
       )}
     </div>
