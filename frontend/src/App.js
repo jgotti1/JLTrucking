@@ -10,12 +10,20 @@ import './App.css';
 
 function App() {
   const { selectedItem } = useContext(NavigationContext);
+
   const [highlightJobsFields, setHighlightJobsFields] = useState({});
+
   const [showJobsModal, setShowJobsModal] = useState(false);
+
   const [showJobsEditModal, setShowJobsEditModal] = useState(false);
+
   const [filterComplete, setFilterComplete] = useState(false);
-  const [filterInProgress, setFilterInProgress] = useState(true);
-  const [showDateRangeSearch, setShowDateRangeSearch] = useState(false);
+  const [filterInProgress, setFilterInProgress] = useState(false);
+
+  const [showDateRangeModal, setShowDateRangeModal]= useState(false)
+  
+  const [dateRangeStart, setDateRangeStart] = useState(null)
+  const [dateRangeStop, setDateRangeSop] = useState(null)
 
   const handleOpenJobsModal = () => {
      setHighlightJobsFields({});
@@ -35,12 +43,12 @@ function App() {
       setShowJobsEditModal(false);
   };
   
-    const handleOpenDateRangeSearch = () => {
-      setShowDateRangeSearch(true); 
+    const handleOpenDateRangeModal = () => {
+      setShowDateRangeModal(true); 
     };
 
-    const handleCloseDateRangeSearch = () => {
-      setShowDateRangeSearch(false); 
+    const handleCloseDateRangeModal = () => {
+      setShowDateRangeModal(false);
     };
 
 
@@ -62,7 +70,7 @@ function App() {
               <Form.Check type="checkbox" label="Complete" checked={console.log("complete")} onChange={(e) => setFilterComplete(e.target.checked)} className="mr-2" />
             </div>
           </Button>
-          <Button onClick={handleOpenDateRangeSearch} variant="secondary" className="FilterButton open-modal-btn btn-sm" style={{ marginLeft: "0.5rem" }}>
+          <Button onClick={handleOpenDateRangeModal} variant="secondary" className="FilterButton open-modal-btn btn-sm" style={{ marginLeft: "0.5rem" }}>
             Filter by Date
           </Button>
 
@@ -79,13 +87,7 @@ function App() {
             setHighlightJobsFields={setHighlightJobsFields}
           />
 
-          {showDateRangeSearch && (
-            <DateRangeSearch
-              show={showDateRangeSearch} // Pass show state
-              handleClose={handleCloseDateRangeSearch} // Pass close function
-              // Add props for date range search functionality (if needed)
-            />
-          )}
+          {showDateRangeModal && <DateRangeSearch handleCloseDateRangeModal={handleCloseDateRangeModal} handleOpenDateRangeModal={showDateRangeModal} />}
         </div>
       )}
     </div>

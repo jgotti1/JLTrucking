@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-const DateRangeSearch = ({ show, handleClose, handleSearch }) => {
+const DateRangeSearch = ({ handleCloseDateRangeModal, handleOpenDateRangeModal }) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
@@ -15,11 +15,11 @@ const DateRangeSearch = ({ show, handleClose, handleSearch }) => {
 
   const handleSearchClick = () => {
     // Perform search action with the selected date range
-    handleSearch(fromDate, toDate);
+    // handleSearch(fromDate, toDate);
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={handleOpenDateRangeModal} onHide={handleCloseDateRangeModal}>
       <Modal.Header closeButton>
         <Modal.Title>Date Range Search</Modal.Title>
       </Modal.Header>
@@ -36,10 +36,10 @@ const DateRangeSearch = ({ show, handleClose, handleSearch }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseDateRangeModal}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSearchClick}>
+        <Button variant="primary" >
           Search
         </Button>
       </Modal.Footer>
