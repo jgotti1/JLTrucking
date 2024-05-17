@@ -18,7 +18,7 @@ function App() {
   const [showJobsEditModal, setShowJobsEditModal] = useState(false);
 
   const [filterComplete, setFilterComplete] = useState(false);
-  const [filterInProgress, setFilterInProgress] = useState(false);
+  const [filterInProgress, setFilterInProgress] = useState(true);
 
   const [showDateRangeModal, setShowDateRangeModal]= useState(false)
   
@@ -67,7 +67,7 @@ function App() {
           <Button variant="secondary" className="FilterButton FilterButton open-modal-btn btn-sm" style={{ marginLeft: "0.5rem" }}>
             <div className="checkbox-container d-flex">
               <Form.Check type="checkbox" label="In Progress" checked={filterInProgress} onChange={(e) => setFilterInProgress(e.target.checked)} className="mr-2" />
-              <Form.Check type="checkbox" label="Complete" checked={console.log("complete")} onChange={(e) => setFilterComplete(e.target.checked)} className="mr-2" />
+              <Form.Check type="checkbox" label="Complete" checked={filterComplete} onChange={(e) => setFilterComplete(e.target.checked)} className="mr-2" />
             </div>
           </Button>
           <Button onClick={handleOpenDateRangeModal} variant="secondary" className="FilterButton open-modal-btn btn-sm" style={{ marginLeft: "0.5rem" }}>
