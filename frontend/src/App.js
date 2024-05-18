@@ -1,6 +1,7 @@
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NavigationContext } from "./Context/NavigationContext";
+import { JobRunsContext } from "./Context/JobRunsContext";
 import { Button, Form } from "react-bootstrap";
 import NavMenu from "./components/NavMenu";
 import JobRuns from "./components/JobRuns"; 
@@ -23,7 +24,16 @@ function App() {
   const [showDateRangeModal, setShowDateRangeModal]= useState(false)
   
   const [dateRangeStart, setDateRangeStart] = useState(null)
-  const [dateRangeStop, setDateRangeSop] = useState(null)
+  const [dateRangeStop, setDateRangeStop] = useState(null)
+
+  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const { fetchJobRunsDateData } = useContext(JobRunsContext);
+  const { fetchJobRunsData } = useContext(JobRunsContext);
+
+
+
+
 
   const handleOpenJobsModal = () => {
      setHighlightJobsFields({});
@@ -45,13 +55,31 @@ function App() {
   
     const handleOpenDateRangeModal = () => {
       setShowDateRangeModal(true); 
+      setToDate("")
+      setFromDate("")
     };
 
     const handleCloseDateRangeModal = () => {
       setShowDateRangeModal(false);
+     
     };
+  
+  const handleRestFilters = () => {
+    setDateRangeStart(null)
+    setDateRangeStop(null)
+    fetchJobRunsData();
+  }
 
+ useEffect(() => {
+   if (dateRangeStart && dateRangeStop) {
+     console.log(dateRangeStart, dateRangeStop + "here");
+     fetchJobRunsDateData(dateRangeStart, dateRangeStop);
+   } else {
+     console.log("no work date search");
+   }
+ }, [dateRangeStart, dateRangeStop]);
 
+  console.log(`daterange ${dateRangeStart} ${dateRangeStop}`)
   return (
     <div className="App">
       <header className="header">
@@ -59,6 +87,11 @@ function App() {
       </header>
       <img src="/JLlogo.jpg" alt="JL Trucking Logo" className="logo" />
       <h3 className="header-font">{selectedItem}</h3>
+      {(dateRangeStart != null || dateRangeStop != null) && (<div className="container">
+        <button type="button" className="btn btn-link text-primary" onClick={handleRestFilters}>
+          Reset Filter
+        </button>
+      </div>)}
       {selectedItem === "Jobs" && (
         <div>
           <Button variant="secondary" onClick={handleOpenJobsModal} className="FilterButton open-modal-btn btn-sm">
@@ -87,7 +120,16 @@ function App() {
             setHighlightJobsFields={setHighlightJobsFields}
           />
 
-          {showDateRangeModal && <DateRangeSearch handleCloseDateRangeModal={handleCloseDateRangeModal} handleOpenDateRangeModal={showDateRangeModal} />}
+          <DateRangeSearch
+            handleCloseDateRangeModal={handleCloseDateRangeModal}
+            handleOpenDateRangeModal={showDateRangeModal}
+            setDateRangeStart={setDateRangeStart}
+            setDateRangeStop={setDateRangeStop}
+            toDate={toDate}
+            setToDate={setToDate}
+            fromDate={fromDate}
+            setFromDate={setFromDate}
+          />
         </div>
       )}
     </div>

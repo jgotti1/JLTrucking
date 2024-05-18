@@ -26,7 +26,7 @@ const JobRunsViewer = ({
 
   useEffect(() => {
     fetchJobRunsData();
-  });
+  },[]);
 
   function validateForm(formData) {
     let missingFields = [];
@@ -183,12 +183,12 @@ const JobRunsViewer = ({
                 <td>
                   {new Date(jobRun.job_date).toISOString().split("T")[0].split("-").slice(1).concat(new Date(jobRun.job_date).toISOString().split("T")[0].split("-")[0]).join("/")}
                 </td>
-                <td>{jobRun.po_number}</td>
+                <td>{jobRun.po_number != null ? jobRun.po_number : "-"}</td>
                 <td>{jobRun.job_type}</td>
                 <td>{jobRun.truck_id}</td>
                 <td>{jobRun.driver_id}</td>
                 <td>{formatNumberWithCommas(jobRun.starting_mileage)}</td>
-                <td>{jobRun.ending_mileage !== null ? formatNumberWithCommas(jobRun.ending_mileage) : "-"}</td> 
+                <td>{jobRun.ending_mileage !== null ? formatNumberWithCommas(jobRun.ending_mileage) : "-"}</td>
                 <td>{jobRun.delivery_location}</td>
                 <td>{jobRun.job_pay != null ? `$${formatNumberWithCommas(jobRun.job_pay)}` : "-"}</td>
                 <td>{jobRun.status}</td>

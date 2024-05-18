@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-const DateRangeSearch = ({ handleCloseDateRangeModal, handleOpenDateRangeModal }) => {
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-
+const DateRangeSearch = ({ handleCloseDateRangeModal, handleOpenDateRangeModal, setDateRangeStart, setDateRangeStop, toDate, setToDate, fromDate, setFromDate }) => {
+ 
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);
   };
@@ -13,13 +11,14 @@ const DateRangeSearch = ({ handleCloseDateRangeModal, handleOpenDateRangeModal }
     setToDate(e.target.value);
   };
 
-  const handleSearchClick = () => {
-    // Perform search action with the selected date range
-    // handleSearch(fromDate, toDate);
+  const handleDateSearchClick = () => {
+    setDateRangeStart(fromDate)
+    setDateRangeStop(toDate)
+    handleCloseDateRangeModal()
   };
 
   return (
-    <Modal show={handleOpenDateRangeModal} onHide={handleCloseDateRangeModal}>
+    <Modal show={handleOpenDateRangeModal} onHide={handleCloseDateRangeModal} className="data-entry-modal">
       <Modal.Header closeButton>
         <Modal.Title>Date Range Search</Modal.Title>
       </Modal.Header>
@@ -39,9 +38,7 @@ const DateRangeSearch = ({ handleCloseDateRangeModal, handleOpenDateRangeModal }
         <Button variant="secondary" onClick={handleCloseDateRangeModal}>
           Close
         </Button>
-        <Button variant="primary" >
-          Search
-        </Button>
+        <Button variant="primary" onClick={handleDateSearchClick}>Search</Button>
       </Modal.Footer>
     </Modal>
   );
