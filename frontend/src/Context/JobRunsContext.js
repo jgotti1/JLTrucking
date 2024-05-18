@@ -50,25 +50,22 @@ const JobRunsProvider = ({ children }) => {
 const fetchJobRunsDateData = async (dateRangeStart, dateRangeStop) => {
   try {
     console.log("jobs date context");
-    // Fetch all records from the server
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs`);
+
+    // Construct the URL with query parameters for the date range
+    const url = new URL(`${process.env.REACT_APP_SERVER_URL}jobs`);
+    if (dateRangeStart) url.searchParams.append("dateRangeStart", dateRangeStart);
+    if (dateRangeStop) url.searchParams.append("dateRangeStop", dateRangeStop);
+ 
+    // Fetch filtered records from the server
+    const response = await fetch(url);
     const data = await response.json();
 
-    // Filter the records to include only those within the date range
-    const filteredData = data.filter((job) => {
-      console.log(job.job_date)
-      const jobDate = new Date(job.job_date); // Adjust the field name based on your data
-      return jobDate >= new Date(dateRangeStart) && jobDate <= new Date(dateRangeStop) || new Date(dateRangeStart)  == new Date(dateRangeStop);
-    });
-
-    // Set the filtered job runs data in state
-    console.log(filteredData);
-    setJobRuns(filteredData);
+    // Set the job runs data to the state
+    setJobRuns(data);
   } catch (error) {
     console.error("Error fetching job runs data:", error);
   }
 };
-
 
   // Function to edit a job run
   const editJobRun = async (id, updatedJobRun) => {

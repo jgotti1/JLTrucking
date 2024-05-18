@@ -6,9 +6,24 @@ const db = require("../DB/db"); // Import your database connection module
 const router = express.Router();
 
 // GET all jobs
+// GET jobs with optional date range filtering
 router.get("/", async (req, res) => {
+  const { dateRangeStart, dateRangeStop } = req.query;
+
+  // Base query
+  let query = "SELECT * FROM jobruns";
+  let params = [];
+
+  // Add date range filter if provided
+  if (dateRangeStart && dateRangeStop) {
+    query += " WHERE job_date BETWEEN $1 AND $2";
+    params = [dateRangeStart, dateRangeStop];
+  }
+
+  query += " ORDER BY job_date";
+  console.log(query)
   try {
-    const jobs = await db.query("SELECT * FROM jobruns ORDER BY job_date");
+    const jobs = await db.query(query, params);
     res.json(jobs.rows);
   } catch (err) {
     console.error(err.message);
