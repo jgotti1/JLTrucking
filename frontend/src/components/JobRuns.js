@@ -119,7 +119,9 @@ const JobRunsViewer = ({
     setShowJobsEditModal(false);
   };
 
-  const handleDelete = async (id) => {
+const handleDelete = async (id) => {
+  const isConfirmed = window.confirm("Are you sure you want to delete this record?git ");
+  if (isConfirmed) {
     try {
       await deleteJobRun(id);
       setShowJobsEditModal(false);
@@ -127,7 +129,9 @@ const JobRunsViewer = ({
     } catch (error) {
       console.error("Error deleting job run:", error);
     }
-  };
+  }
+};
+
 
   const handleEdit = async (formData) => {
     if (!validateForm(formData)) {
