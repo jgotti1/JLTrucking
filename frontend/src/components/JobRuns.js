@@ -168,6 +168,16 @@ const JobRunsViewer = ({
     return false; // If neither checkbox is checked, show no job runs
   });
 
+  // Calculate summary data
+  const totalRuns = filteredJobRuns.length;
+  const totalMileage = filteredJobRuns.reduce((sum, jobRun) => {
+    const startMileage = parseInt(jobRun.starting_mileage, 10) || 0;
+    const endMileage = parseInt(jobRun.ending_mileage, 10) || 0;
+    return sum + (endMileage - startMileage);
+  }, 0);
+
+  const totalPay = filteredJobRuns.reduce((sum, jobRun) => sum + (parseFloat(jobRun.job_pay) || 0), 0);
+
   return (
     <div className="table-container">
       <div className="table-wrapper">
@@ -201,6 +211,7 @@ const JobRunsViewer = ({
                 <td>{jobRun.driver_id}</td>
                 <td>{formatNumberWithCommas(jobRun.starting_mileage)}</td>
                 <td>{jobRun.ending_mileage !== null ? formatNumberWithCommas(jobRun.ending_mileage) : "-"}</td>
+                <td>{jobRun.pickup_location}</td>
                 <td>{jobRun.delivery_location}</td>
                 <td>{jobRun.job_pay != null ? `$${formatNumberWithCommas(jobRun.job_pay)}` : "-"}</td>
                 <td>{jobRun.status}</td>
@@ -210,6 +221,19 @@ const JobRunsViewer = ({
             ))}
           </tbody>
         </Table>
+        <hr />
+        <div className="summary">
+          <p>
+            <span className="bold">Total Runs:</span> {totalRuns}
+          </p>
+          <p>
+            <span className="bold">Total Pay:</span> ${formatNumberWithCommas(totalPay.toFixed(2))}
+          </p>
+          <p>
+            <span className="bold">Total Mileage:</span> {formatNumberWithCommas(totalMileage)}
+          </p>
+        </div>
+
         <JobRunModal showJobsModal={showJobsModal} handleCloseJobsModal={handleCloseJobsModal} handleSubmit={handleSubmit} highlightJobsFields={highlightJobsFields} />
         <JobRunModalEdit
           showJobsEditModal={showJobsEditModal}
