@@ -15,7 +15,7 @@ const JobRunsProvider = ({ children }) => {
   // Function to fetch job runs data
   const fetchJobRunsData = async () => {
     try {
-      console.log("jobs context")
+  
       // Make API call to fetch job runs data
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}jobs`);
       const data = await response.json();
@@ -49,7 +49,7 @@ const JobRunsProvider = ({ children }) => {
 
 const fetchJobRunsDateData = async (dateRangeStart, dateRangeStop) => {
   try {
-    console.log("jobs date context");
+  
 
     // Construct the URL with query parameters for the date range
     const url = new URL(`${process.env.REACT_APP_SERVER_URL}jobs`);

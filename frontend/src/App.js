@@ -72,10 +72,10 @@ function App() {
 
  useEffect(() => {
    if (dateRangeStart && dateRangeStop) {
-     console.log(dateRangeStart, dateRangeStop + "here");
+   
      fetchJobRunsDateData(dateRangeStart, dateRangeStop);
    } else {
-     console.log("no work date search");
+    return
    }
  }, [dateRangeStart, dateRangeStop]);
 
