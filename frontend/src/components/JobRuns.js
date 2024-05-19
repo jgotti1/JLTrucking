@@ -14,8 +14,9 @@ const JobRunsViewer = ({
   handleCloseJobsEditModal,
   highlightJobsFields,
   setHighlightJobsFields,
+  filterInProgress,
+  filterComplete
 }) => {
-  
   const { jobRuns, updateJobRuns, deleteJobRun, editJobRun, fetchJobRunsData } = useContext(JobRunsContext);
   const [selectedRow, setSelectedRow] = useState(null);
 
@@ -26,7 +27,7 @@ const JobRunsViewer = ({
 
   useEffect(() => {
     fetchJobRunsData();
-  },[]);
+  }, []);
 
   function validateForm(formData) {
     let missingFields = [];
@@ -156,6 +157,17 @@ const JobRunsViewer = ({
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const filteredJobRuns = jobRuns.filter((jobRun) => {
+    if (filterInProgress && filterComplete) {
+      return jobRun.status === "In Progress" || jobRun.status === "Complete";
+    } else if (filterInProgress) {
+      return jobRun.status === "In Progress";
+    } else if (filterComplete) {
+      return jobRun.status === "Complete";
+    }
+    return false; // If neither checkbox is checked, show no job runs
+  });
+
   return (
     <div className="table-container">
       <div className="table-wrapper">
@@ -178,7 +190,7 @@ const JobRunsViewer = ({
             </tr>
           </thead>
           <tbody>
-            {jobRuns.map((jobRun) => (
+            {filteredJobRuns.map((jobRun) => (
               <tr key={jobRun.id || uuidv4()} onClick={() => handleRowClick(jobRun)}>
                 <td>
                   {new Date(jobRun.job_date).toISOString().split("T")[0].split("-").slice(1).concat(new Date(jobRun.job_date).toISOString().split("T")[0].split("-")[0]).join("/")}

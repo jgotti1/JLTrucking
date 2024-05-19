@@ -79,7 +79,6 @@ function App() {
    }
  }, [dateRangeStart, dateRangeStop]);
 
-  console.log(`daterange ${dateRangeStart} ${dateRangeStop}`)
   return (
     <div className="App">
       <header className="header">
@@ -87,11 +86,13 @@ function App() {
       </header>
       <img src="/JLlogo.jpg" alt="JL Trucking Logo" className="logo" />
       <h3 className="header-font">{selectedItem}</h3>
-      {(dateRangeStart != null || dateRangeStop != null) && (<div className="container">
-        <button type="button" className="btn btn-link text-primary" onClick={handleRestFilters}>
-          Reset Filter
-        </button>
-      </div>)}
+      {(dateRangeStart != null || dateRangeStop != null) && (
+        <div className="container">
+          <button type="button" className="btn btn-link text-primary" onClick={handleRestFilters}>
+            Reset Filter
+          </button>
+        </div>
+      )}
       {selectedItem === "Jobs" && (
         <div>
           <Button variant="secondary" onClick={handleOpenJobsModal} className="FilterButton open-modal-btn btn-sm">
@@ -118,6 +119,8 @@ function App() {
             handleCloseJobsEditModal={handleCloseJobsEditModal}
             highlightJobsFields={highlightJobsFields}
             setHighlightJobsFields={setHighlightJobsFields}
+            filterInProgress={filterInProgress}
+            filterComplete={filterComplete}
           />
 
           <DateRangeSearch
