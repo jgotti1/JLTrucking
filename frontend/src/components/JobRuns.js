@@ -111,6 +111,10 @@ const JobRunsViewer = ({
       const newJobRun = await response.json();
       updateJobRuns([...jobRuns, newJobRun]);
       setSelectedRow(newJobRun);
+
+      // Show the warning message
+      alert("Reminder, don't forget to enter the final mileage and mark the job complete when it is done.");
+
     } catch (error) {
       console.error("Error updating job run data:", error);
     }

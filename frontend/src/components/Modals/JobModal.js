@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
-function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit, handleDelete}) {
+function JobModal({ highlightJobsFields, showJobsModal, handleCloseJobsModal, handleSubmit}) {
 
   const [formData, setFormData] = useState({});
 
